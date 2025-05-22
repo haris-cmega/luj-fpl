@@ -2,9 +2,11 @@ package com.example.luj_fpl.controller;
 
 import com.example.luj_fpl.service.FPLService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class FplController {
     private FPLService fplService;
 

@@ -12,5 +12,4 @@ public class FplAPIClient {
     public FPLResponse fetchFplData(){
         return restTemplate.getForObject(url, FPLResponse.class);
     }
-
 }

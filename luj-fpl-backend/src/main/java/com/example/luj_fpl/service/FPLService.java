@@ -22,7 +22,7 @@ public class FPLService {
                 return event.getDeadlineTime();
             }
         }
-        return "Next gameweek not found.";
+        return "Next gameweek not found... See you next season!";
     }
 
 
