@@ -2,19 +2,15 @@ package com.example.luj_fpl.service;
 
 import com.example.luj_fpl.client.FplAPIClient;
 import com.example.luj_fpl.dto.FixtureDTO;
-import com.example.luj_fpl.model.Event;
-import com.example.luj_fpl.model.FPLResponse;
-import com.example.luj_fpl.model.Fixture;
-import com.example.luj_fpl.model.Team;
+import com.example.luj_fpl.dto.PlayerTransferDTO;
+import com.example.luj_fpl.model.*;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FPLService {
@@ -76,5 +72,35 @@ public class FPLService {
         }
 
         return fixtureDTOs;
+    }
+
+    public List<PlayerTransferDTO> getTopTransferredInPlayers() {
+        FPLResponse data = fplAPIClient.fetchFplData();
+
+        return data.getPlayers().stream()
+                .sorted(Comparator.comparingInt(Player::getTransfersInEvent).reversed())
+                .limit(5)
+                .map(player -> new PlayerTransferDTO(
+                        player.getFirstName() + " " + player.getSecondName(),
+                        player.getNowCost() / 10.0,
+                        player.getTotalPoints(),
+                        player.getTransfersInEvent()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public List<PlayerTransferDTO> getTopTransferredOutPlayers() {
+        FPLResponse data = fplAPIClient.fetchFplData();
+
+        return data.getPlayers().stream()
+                .sorted(Comparator.comparingInt(Player::getTransfersOutEvent).reversed())
+                .limit(5)
+                .map(player -> new PlayerTransferDTO(
+                        player.getFirstName() + " " + player.getSecondName(),
+                        player.getNowCost() / 10.0,
+                        player.getTotalPoints(),
+                        player.getTransfersOutEvent()
+                ))
+                .collect(Collectors.toList());
     }
 }

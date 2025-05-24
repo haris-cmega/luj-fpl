@@ -1,7 +1,9 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Deadline from "./components/Deadline";
 import Fixtures from "./components/Fixtures";
+import TransferredPlayers from "./components/TransferredPlayers";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
           <Fixtures />
         </div>
       </div>
+      <TransferredPlayers />
+      <Footer />
     </>
   );
 }
